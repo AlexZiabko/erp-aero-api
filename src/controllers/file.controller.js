@@ -97,7 +97,6 @@ export const updateFile = async (req, res) => {
     const newFile = req.file;
     if (!newFile) return res.status(400).json({ message: 'File required' });
 
-    // удаляем старый
     if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
 
     file.name = path.basename(newFile.originalname, path.extname(newFile.originalname));
