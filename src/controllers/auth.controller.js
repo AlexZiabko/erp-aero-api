@@ -20,15 +20,15 @@ export const signup = async (req, res) => {
     const hashed = await bcrypt.hash(password, 10);
     const user = await User.create({ id, password: hashed });
 
-    const accessToken = generateAccessToken(user);
     const refreshTokenValue = generateRefreshToken(user);
-
-    await RefreshToken.create({
+    const refreshRecord = await RefreshToken.create({
       token: refreshTokenValue,
       expiryDate: new Date(Date.now() + Number(process.env.REFRESH_EXPIRE) * 1000),
       UserId: user.id,
       active: true
     });
+
+    const accessToken = generateAccessToken(user, refreshRecord.id);
 
     res.json({ accessToken, refreshToken: refreshTokenValue });
   } catch (err) {
@@ -47,15 +47,15 @@ export const signin = async (req, res) => {
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) return res.status(400).json({ message: 'Invalid password' });
 
-    const accessToken = generateAccessToken(user);
     const refreshTokenValue = generateRefreshToken(user);
-
-    await RefreshToken.create({
+    const refreshRecord = await RefreshToken.create({
       token: refreshTokenValue,
       expiryDate: new Date(Date.now() + Number(process.env.REFRESH_EXPIRE) * 1000),
       UserId: user.id,
       active: true
     });
+
+    const accessToken = generateAccessToken(user, refreshRecord.id);
 
     res.json({ accessToken, refreshToken: refreshTokenValue });
   } catch (err) {

@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-app.use('/auth', authRoutes);
+app.use('/', authRoutes);
 app.use('/file', fileRoutes);
 app.use('/user', userRoutes);
 

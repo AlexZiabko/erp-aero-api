@@ -14,9 +14,10 @@ export const authMiddleware = async (req, res, next) => {
   try {
     const payload = verifyAccessToken(token);
 
-      const tokenRecord = await RefreshToken.findOne({
-      where: { UserId: payload.id, active: true }
+    const tokenRecord = await RefreshToken.findOne({
+      where: { id: payload.tokenId, active: true }
     });
+
 
     if (!tokenRecord) return res.status(403).json({ message: 'Token revoked' });
 
