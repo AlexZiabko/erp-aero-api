@@ -5,15 +5,13 @@
  */
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../config/db.js';
-import { User } from './User.js';
 
 export const File = sequelize.define('File', {
-  filename: { type: DataTypes.STRING, allowNull: false },
-  originalname: { type: DataTypes.STRING, allowNull: false },
-  mimetype: { type: DataTypes.STRING },
-  size: { type: DataTypes.INTEGER },
-  uploadDate: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
+  id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
+  name: { type: DataTypes.STRING, allowNull: false },
+  extension: { type: DataTypes.STRING, allowNull: false },
+  mimeType: { type: DataTypes.STRING, allowNull: false },
+  size: { type: DataTypes.INTEGER, allowNull: false },
+  uploadDate: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+  path: { type: DataTypes.STRING, allowNull: false }
 });
-
-File.belongsTo(User);
-User.hasMany(File);

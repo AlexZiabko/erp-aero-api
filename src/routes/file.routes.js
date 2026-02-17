@@ -3,11 +3,19 @@
  *   All rights reserved.
  *   Author Aliaksandr Ziabko 
  */
-import { Router } from 'express';
-const router = Router();
+import express from 'express';
+import { upload } from '../middlewares/upload.js';
+import { 
+  uploadFile, listFiles, getFileInfo, downloadFile, deleteFile, updateFile 
+} from '../controllers/file.controller.js';
 
-router.get('/test', (req, res) => {
-  res.json({ message: 'File route works!' });
-});
+const router = express.Router();
+
+router.post('/upload', upload.single('file'), uploadFile);
+router.get('/list', listFiles);
+router.get('/:id', getFileInfo);
+router.get('/download/:id', downloadFile);
+router.delete('/delete/:id', deleteFile);
+router.put('/update/:id', upload.single('file'), updateFile);
 
 export default router;
