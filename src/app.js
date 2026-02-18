@@ -8,8 +8,6 @@ import cors from 'cors';
 
 import authRoutes from './routes/auth.routes.js';
 import fileRoutes from './routes/file.routes.js';
-import userRoutes from './routes/user.routes.js';
-
 
 
 const app = express();
@@ -22,7 +20,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/', authRoutes);
 app.use('/file', fileRoutes);
-app.use('/user', userRoutes);
 
 
 app.get('/', (req, res) => {
